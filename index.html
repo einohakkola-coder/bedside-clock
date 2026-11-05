@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700&family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700&family=Figtree:wght@400;500;600&display=swap">
 <style>
 /* Layout: black bezel around one rounded screen. Clock + website apps are side-by-side pages; a pull-down control menu holds alarms, faces, wallpaper and settings. Single dark device look. */
 :root{
@@ -60,7 +60,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,la
 
 /* Sky */
 .sky{display:grid;grid-template-rows:auto 1fr auto;padding:4.5vh 4.5vw}
-.time{display:flex;align-items:baseline;justify-content:center;align-self:center;font-family:var(--f-num);font-weight:300;font-size:min(29vw,46vh);line-height:1;letter-spacing:-.02em}
+.time{display:flex;align-items:baseline;justify-content:center;align-self:center;font-family:var(--f-num);font-weight:var(--tw,300);font-size:calc(min(29vw,46vh) * var(--ts,1));line-height:1;letter-spacing:-.02em;color:var(--tc,inherit)}
 .time .s{font-size:.2em;font-weight:400;opacity:.7;margin-left:.25em;min-width:1.3em}
 .ap{font-size:.16em;font-weight:400;opacity:.8;margin-left:.3em}
 
@@ -69,7 +69,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,la
 .cardrow{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;min-height:0}
 .card{background:var(--card);color:var(--card-ink);border-radius:22px;position:relative;display:grid;place-items:center;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.14)}
 .card::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:rgba(0,0,0,.08)}
-.card .num{font-family:var(--f-num);font-weight:300;font-size:min(21vw,44vh);line-height:1;letter-spacing:-.03em}
+.card .num{font-family:var(--f-num);font-weight:300;font-size:calc(min(21vw,44vh) * var(--ts,1));line-height:1;letter-spacing:-.03em}
 .go{animation:flip .5s cubic-bezier(.3,.7,.2,1)}
 @keyframes flip{from{transform:perspective(600px) rotateX(-75deg);opacity:.2}to{transform:none;opacity:1}}
 .card .meta{position:absolute;top:2.4vh;right:1.6vw;display:flex;gap:.6em;align-items:center;font-family:var(--f-num);font-size:clamp(13px,3.4vh,22px);z-index:1}
@@ -78,56 +78,45 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,la
 /* Analog */
 .analog{display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:4vh 4.5vw;gap:1vh}
 .dial{min-height:0;display:grid;place-items:center}
-.dial svg{height:100%;width:auto;max-width:100%}
+.dial svg{height:calc(100% * var(--ts,1));width:auto;max-width:100%}
 
 /* Bold */
 .bold{display:grid;place-content:center;justify-items:center;gap:3vh}
-.btime{font-family:var(--f-num);font-weight:700;font-size:min(27vw,56vh);line-height:.82;letter-spacing:-.05em;display:flex}
-.btime .bm{opacity:.5}
-.btime .bc{opacity:.5;margin:0 .02em}
+.btime{color:var(--tc,inherit);font-family:var(--f-num);font-weight:700;font-size:calc(min(27vw,56vh) * var(--ts,1));line-height:.82;letter-spacing:-.05em;display:flex}
+.btime .bm{opacity:var(--fade,.5)}
+.btime .bc{opacity:var(--fade,.5);margin:0 .02em}
 .bsub{display:flex;align-items:center;gap:.8em;font-weight:600;text-transform:uppercase;letter-spacing:.22em;font-size:clamp(12px,3.4vh,20px);color:var(--fg2)}
 .bsub i{width:.35em;height:.35em;border-radius:50%;background:currentColor;opacity:.6}
 
-/* Words */
-.words{display:grid;grid-template-rows:1fr auto;padding:5vh 7vw 4.5vh}
-.wtext{align-self:center;margin:0;font-family:var(--f-word);font-style:italic;font-weight:300;font-size:min(8.6vw,15vh);line-height:1.04;text-wrap:balance;letter-spacing:-.01em}
-.wtext b{font-weight:600}
-.wfoot{display:flex;justify-content:space-between;gap:12px;color:var(--fg2);font-size:clamp(13px,3.6vh,20px);font-weight:500}
-.wfoot span{display:flex;align-items:center;gap:.4em}
+.slot{display:flex;align-items:center;gap:.4em;min-width:0}
+.cond.slot,.foot.slot{justify-content:center}
+.slot small{font-size:.8em}
+.bsub span{display:flex;align-items:center;gap:.35em}
+.cards[data-cs="dark"] .card{background:#15181d;color:#eef1f5;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.cards[data-cs="dark"] .card::after{background:rgba(255,255,255,.07)}
+.cards[data-cs="glass"] .card{background:rgba(255,255,255,.14);color:var(--fg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.cards[data-cs="glass"] .card::after{background:rgba(255,255,255,.12)}
 
-/* Info */
-.info{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:4vw;padding:5vh 5vw}
-.itime{font-family:var(--f-num);font-weight:300;font-size:min(17vw,40vh);line-height:.9;letter-spacing:-.03em;display:flex;align-items:baseline}
-.idate{margin-top:2vh;font-size:clamp(15px,4.6vh,28px);color:var(--fg2);font-weight:500}
-.iright{display:grid;gap:3.5vh;border-left:1px solid var(--fg2);padding-left:4vw}
-.irow .k{display:block;font-size:clamp(10px,2.6vh,14px);letter-spacing:.16em;text-transform:uppercase;color:var(--fg2);font-weight:600}
-.irow .v{display:flex;align-items:center;gap:.35em;font-family:var(--f-num);font-size:clamp(22px,8vh,52px);line-height:1.15}
-.irow small{display:block;color:var(--fg2);font-size:clamp(12px,3.2vh,18px)}
-
-/* Retro LED */
-.retro{background:#050505;display:grid;place-content:center;justify-items:center;gap:5vh;--on:var(--led);--offc:rgba(255,59,47,.07);--t:.085em}
-.segs{display:flex;gap:.1em;align-items:center;font-size:min(25vw,52vh);transform:skewX(-6deg)}
-.seg{position:relative;width:.54em;height:1em;flex:none}
-.seg i{position:absolute;background:var(--offc);border-radius:.04em}
-.seg i.on{background:var(--on);box-shadow:0 0 .06em rgba(255,59,47,.75)}
-.seg .a{top:0;left:calc(var(--t) + .01em);right:calc(var(--t) + .01em);height:var(--t)}
-.seg .d{bottom:0;left:calc(var(--t) + .01em);right:calc(var(--t) + .01em);height:var(--t)}
-.seg .g{top:calc(.5em - var(--t) / 2);left:calc(var(--t) + .01em);right:calc(var(--t) + .01em);height:var(--t)}
-.seg .b,.seg .c,.seg .e,.seg .f{width:var(--t);height:calc(.5em - var(--t) * 1.25)}
-.seg .b{top:calc(var(--t) * .62);right:0}.seg .c{bottom:calc(var(--t) * .62);right:0}
-.seg .e{bottom:calc(var(--t) * .62);left:0}.seg .f{top:calc(var(--t) * .62);left:0}
-.scol{position:relative;width:.16em;height:1em;flex:none}
-.scol::before,.scol::after{content:"";position:absolute;left:.04em;width:var(--t);height:var(--t);border-radius:50%;background:var(--on);box-shadow:0 0 .06em rgba(255,59,47,.75);animation:blink 1s steps(2,start) infinite}
-.scol::before{top:.28em}.scol::after{top:.62em}
-@keyframes blink{to{visibility:hidden}}
-.rdays{display:flex;gap:1.6em;font-weight:600;letter-spacing:.18em;font-size:clamp(11px,3vh,17px);color:var(--offc)}
-.rdays span.on{color:var(--on);text-shadow:0 0 6px rgba(255,59,47,.6)}
-.rdays span{color:rgba(255,59,47,.18)}
-
-/* Night */
-.night{background:#000;display:grid;place-content:center;justify-items:center;gap:3vh}
-.ntime{font-family:var(--f-num);font-weight:200;font-size:min(24vw,46vh);line-height:1;color:#d23a26;letter-spacing:-.02em}
-.nal{color:#7a2418;font-size:clamp(13px,3.6vh,20px);display:flex;gap:.4em;align-items:center}
+/* customize mode: clock shrinks to the left, options on the right */
+#clockPage{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-radius .35s,background 2s}
+body.editing #screen{background:#05070a}
+body.editing #clockPage{transform:scale(.5)!important;transform-origin:3% 50%;border-radius:36px;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+body.editing .handle,body.editing #dots{display:none}
+#editor{position:absolute;top:0;right:0;bottom:0;width:min(46%,440px);z-index:11;overflow:auto;box-sizing:border-box;padding:0 22px 22px;background:var(--shade);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);touch-action:pan-y;color:var(--ink)}
+#editor .eh{margin:18px 0 4px}
+.erow{padding:9px 0;border-bottom:1px solid var(--line);display:grid;gap:7px}
+.erow>span{font-size:13px;color:var(--dim)}
+.erow select{width:100%}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{padding:8px 12px;border-radius:10px;background:var(--tile);font-size:13px}
+.opt.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.opt .sw8{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+#edReset{margin-top:16px;font-size:13px}
+#screen{-webkit-touch-callout:none}
+@media (orientation:portrait){
+  body.editing #clockPage{transform-origin:50% 3%;transform:scale(.5)!important}
+  #editor{top:auto;left:0;width:auto;height:52%}
+}
 
 .handle{position:absolute;top:8px;left:50%;width:46px;height:5px;margin-left:-23px;border-radius:3px;background:var(--fg);opacity:.35;z-index:3;pointer-events:none}
 #dots{position:absolute;bottom:9px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3;pointer-events:none}
@@ -147,6 +136,32 @@ body.onapp #dots,body.onapp .handle,body.darkface .handle{display:none}
 .launch .lic .ico{width:40px;height:40px;color:var(--accent)}
 .launch p{max-width:46ch;margin:0;color:var(--dim);line-height:1.5;font-size:14px}
 .chip.big{padding:16px 34px;font-size:18px}
+input,textarea{-webkit-user-select:text;user-select:text}
+.yt{background:#0f0f10}
+.ytwrap{position:absolute;inset:0;overflow:auto;touch-action:pan-y;padding:22px 40px 24px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px}
+.ytbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ytsearch{display:flex;gap:8px;flex:1 1 280px;min-width:0}
+.ytsearch input,.ytadd input{flex:1;min-width:0;background:#1e1f22;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:10px 16px;font:inherit;font-size:15px}
+.ytmsg{margin:0}
+.ythead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ythead h4{margin:0}
+.ytgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px 14px}
+.ytcard{position:relative;min-width:0}
+.ytplay{display:grid;gap:6px;text-align:left;width:100%}
+.ytplay .th{position:relative;display:block;aspect-ratio:16/9;max-width:100%;border-radius:12px;overflow:hidden;background:#222}
+.ytplay img{width:100%;height:100%;object-fit:cover;display:block}
+.ytplay em{position:absolute;left:8px;bottom:8px;background:#e5231c;color:#fff;font-style:normal;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.06em}
+.ytplay b{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ytplay small{color:var(--dim);font-size:12px}
+.ytx{position:absolute;top:6px;right:6px;width:30px;height:30px;background:rgba(0,0,0,.65)}
+.ytplayer{position:absolute;inset:0;background:#000}
+.ytplayer iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytback{position:absolute;top:34px;left:34px;z-index:2;background:rgba(0,0,0,.7)}
+.ytback .ico{width:16px;height:16px}
+.tones{display:flex;flex-wrap:wrap;gap:8px}
+.tone{padding:10px 14px;border-radius:12px;background:var(--tile);font-size:14px}
+.tone.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.linkbtn{color:var(--accent);text-decoration:underline}
 .edge{position:absolute;z-index:5;touch-action:none}
 .edge.l{left:0;top:0;bottom:0;width:26px}.edge.r{right:0;top:0;bottom:0;width:26px}.edge.t{top:0;left:26px;right:26px;height:26px}
 .edge::after{content:"";position:absolute;background:rgba(255,255,255,.28);border-radius:3px}
@@ -242,12 +257,10 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
 .pv.add .ico{width:26px;height:26px}
 
 @media (orientation:portrait){
-  .time{font-size:min(24vw,30vh)}
+  .time{font-size:calc(min(24vw,30vh) * var(--ts,1))}
   .cardrow{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
-  .card .num{font-size:min(36vw,22vh)}
-  .info{grid-template-columns:1fr}
-  .iright{border-left:0;padding-left:0;border-top:1px solid var(--fg2);padding-top:3vh}
-  .btime{font-size:min(30vw,30vh)}
+  .card .num{font-size:calc(min(36vw,22vh) * var(--ts,1))}
+  .btime{font-size:calc(min(30vw,30vh) * var(--ts,1))}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -257,19 +270,19 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
   <div id="track">
     <section class="page clock" id="clockPage">
       <div class="face sky" data-f="sky">
-        <div class="bar"><span class="l"><span data-wx></span><span data-b="temp"></span></span><span class="r" data-al><small data-b="alarmT24"></small><span data-ic="alarm"></span></span></div>
+        <div class="bar"><span class="l slot" data-slot="tl"></span><span class="r slot" data-slot="tr"></span></div>
         <div class="time"><span data-b="hm"></span><span class="s" data-b="s"></span><span class="ap" data-b="ap"></span></div>
-        <div class="cond" data-b="cond"></div>
+        <div class="cond slot" data-slot="bottom"></div>
       </div>
       <div class="face cards" data-f="cards">
         <div class="cardrow">
           <div class="card"><span class="num" data-b="h" data-flip></span></div>
-          <div class="card"><div class="meta"><span data-wx></span><span data-b="temp"></span><span data-al data-ic="alarm"></span></div><span class="num" data-b="m" data-flip></span></div>
+          <div class="card"><div class="meta"><span class="slot" data-slot="c1"></span><span class="slot" data-slot="c2"></span></div><span class="num" data-b="m" data-flip></span></div>
         </div>
-        <div class="foot"><span data-ic="alarm"></span><span data-b="alarmLong"></span></div>
+        <div class="foot slot" data-slot="bottom"></div>
       </div>
       <div class="face analog" data-f="analog">
-        <div class="bar"><span class="l" data-b="dateShort"></span><span class="r"><span data-wx></span><span data-b="temp"></span></span></div>
+        <div class="bar"><span class="l slot" data-slot="tl"></span><span class="r slot" data-slot="tr"></span></div>
         <div class="dial"><svg viewBox="0 0 200 200" aria-label="Analog clock">
           <circle cx="100" cy="100" r="97" fill="currentColor" fill-opacity=".08"/>
           <g id="ticks" stroke="currentColor"></g>
@@ -277,27 +290,14 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
           <line id="hh" x1="100" y1="100" x2="100" y2="54" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/>
           <line id="mh" x1="100" y1="100" x2="100" y2="26" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
           <line id="sh" x1="100" y1="116" x2="100" y2="20" stroke="#ff8a3d" stroke-width="1.4" stroke-linecap="round"/>
-          <circle cx="100" cy="100" r="4" fill="#ff8a3d"/>
+          <circle id="hc" cx="100" cy="100" r="4" fill="#ff8a3d"/>
         </svg></div>
-        <div class="cond" data-b="alarmLong"></div>
+        <div class="cond slot" data-slot="bottom"></div>
       </div>
       <div class="face bold" data-f="bold">
         <div class="btime"><span data-b="h"></span><span class="bc">:</span><span class="bm" data-b="m"></span></div>
-        <div class="bsub"><span data-b="day"></span><i></i><span data-b="dateNum"></span><i></i><span data-b="temp"></span></div>
+        <div class="bsub" id="bsub"></div>
       </div>
-      <div class="face words" data-f="words">
-        <p class="wtext" id="wtext"></p>
-        <div class="wfoot"><span data-b="date"></span><span><span data-ic="alarm"></span><span data-b="alarmT"></span></span></div>
-      </div>
-      <div class="face info" data-f="info">
-        <div><div class="itime"><span data-b="hm"></span><span class="ap" data-b="ap"></span></div><div class="idate" data-b="date"></div></div>
-        <div class="iright">
-          <div class="irow"><span class="k">Weather</span><span class="v"><span data-wx></span><span data-b="temp"></span></span><small data-b="condHilo"></small></div>
-          <div class="irow"><span class="k">Next alarm</span><span class="v" data-b="alarmT"></span><small data-b="alarmWhen"></small></div>
-        </div>
-      </div>
-      <div class="face retro" data-f="retro"><div class="segs" id="segBig"></div><div class="rdays" id="rdays"></div></div>
-      <div class="face night" data-f="night"><div class="ntime" data-b="hm"></div><div class="nal"><span data-ic="alarm"></span><span data-b="alarmT"></span></div></div>
     </section>
   </div>
 
@@ -332,18 +332,19 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
         <div id="alarms"></div>
         <div class="btnrow"><button class="chip" id="alAdd">Add alarm</button><button class="chip" id="alTest">Test sound</button></div>
         <div class="row"><label for="sunMin">Sunrise lead-in<small>Screen warms up before the alarm</small></label><select id="sunMin"><option value="0">Off</option><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option></select></div>
-        <div class="row"><label for="tone">Alarm tone</label><select id="tone"><option value="chime">Soft chime</option><option value="birds">Morning trill</option><option value="beep">Classic beep</option></select></div>
+        <h4 style="margin-top:20px">Alarm sound</h4><div class="tones" id="tones"></div><p class="note" id="toneNote"></p>
       </div>
 
       <div class="view" id="vFaces" hidden>
         <div class="shead"><button class="mini back" aria-label="Back" data-ic="back"></button><h3>Clock face</h3><button class="chip solid done">Done</button></div>
         <div class="pgrid" id="faceGrid"></div>
+        <div class="btnrow"><button class="chip solid" id="custBtn">Customize this face</button></div><p class="note">Tip: hold your finger on the clock to customize it.</p>
       </div>
 
       <div class="view" id="vWalls" hidden>
         <div class="shead"><button class="mini back" aria-label="Back" data-ic="back"></button><h3>Wallpaper</h3><button class="chip solid done">Done</button></div>
         <div class="pgrid" id="wallGrid"></div>
-        <p class="note">Retro and Night faces always use black, so they stay dark beside the bed.</p>
+        
       </div>
 
       <div class="view" id="vSettings" hidden>
@@ -365,10 +366,13 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
             <div class="row"><label>Turn on automatically</label><button class="sw" id="swAuto" aria-label="Automatic night mode"></button></div>
             <div class="row"><label for="nFrom">From</label><input type="time" class="plain" id="nFrom"></div>
             <div class="row"><label for="nTo">Until</label><input type="time" class="plain" id="nTo"></div>
-            <div class="row"><label>Switch to Night face<small>Dim red clock while night mode is on</small></label><button class="sw" id="swNF" aria-label="Switch to Night face"></button></div>
+            <div class="row"><label>Dark face at night<small>Swaps the white Cards face for Sky</small></label><button class="sw" id="swNF" aria-label="Dark face at night"></button></div>
             <h4 style="margin-top:22px">Weather</h4>
             <div class="field" style="margin-top:4px"><input id="city" placeholder="City, e.g. Tampere" autocomplete="off"><button class="chip solid" id="setCity">Set</button></div>
             <p class="note" id="cityNote"></p>
+            <h4 style="margin-top:22px">YouTube</h4>
+            <div class="field" style="margin-top:4px"><input id="ytKey" placeholder="YouTube API key (for search)" autocomplete="off"><button class="chip solid" id="ytKeySave">Save</button></div>
+            <p class="note">Saved videos and pasted links play without a key. To search inside the clock, make a free key: on console.cloud.google.com create a project, enable "YouTube Data API v3", then go to Credentials, Create credentials, API key. About 100 searches a day are free.</p>
           </section>
         </div>
       </div>
@@ -376,16 +380,24 @@ select,.field input,input.plain{background:rgba(0,0,0,.35);border:1px solid var(
     <button class="grab" id="grab" aria-label="Close menu"><i></i></button>
   </div>
 
+  <div id="editor" hidden role="dialog" aria-label="Customize clock face">
+    <div class="shead"><h3 id="edTitle">Customize</h3><button class="chip solid" id="edDone">Done</button></div>
+    <div class="opts" id="edFaces"></div>
+    <h4 class="eh">Information</h4><div id="edSlots"></div>
+    <h4 class="eh">Look</h4><div id="edStyle"></div>
+    <button class="linkbtn" id="edReset">Reset this face</button>
+  </div>
   <div id="ring" hidden><div class="lbl" id="ringL">Alarm</div><div class="big" id="ringT">07:00</div><div class="btns"><button id="snooze">Snooze 9 min</button><button class="stop" id="stop">Stop</button></div></div>
   <div id="toast"></div>
 </div>
 <input type="file" id="photoIn" accept="image/*" hidden>
+<input type="file" id="soundIn" accept="audio/*" hidden>
 
 <script>
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,"0");
 const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const FACES=[["sky","Sky","Big and calm, with weather"],["cards","Cards","Two flip cards"],["analog","Analog","Hands and a numbered dial"],["bold","Bold","Heavy numbers, readable across the room"],["words","Words","Tells the time in a sentence"],["info","Info","Time, weather and next alarm"],["retro","Retro","Red LED alarm clock"],["night","Night","Dim red, nothing else"]];
+const FACES=[["sky","Sky","Big and calm, with weather"],["cards","Cards","Two flip cards"],["analog","Analog","Hands and a numbered dial"],["bold","Bold","Heavy numbers, readable across the room"]];
 const WALLS=[
  {id:"auto",name:"Sky",note:"Follows the time of day",ink:"light",glow:true},
  {id:"ocean",name:"Ocean",bg:"linear-gradient(165deg,#0a5fa6,#41acdf)",ink:"light",glow:true},
@@ -400,16 +412,22 @@ const WALLS=[
 const DEF={face:"sky",wall:"auto",h24:true,secs:false,nightAuto:true,nightFrom:"22:00",nightTo:"07:00",nightDim:60,dayDim:0,nightFace:true,
   sun:15,tone:"chime",keepAwake:true,idleReturn:0,city:{name:"Helsinki",lat:60.17,lon:24.94},
   alarms:[{t:"07:00",days:[1,2,3,4,5],on:true}],
-  apps:[{name:"Lofi radio",url:"https://www.youtube.com/embed/jfKfPfyJRdk"},{name:"Rain radar",url:"https://embed.windy.com/embed2.html?lat=60.17&lon=24.94&zoom=6&overlay=radar"}],
-  snoozeUntil:null,timerEnd:null};
+  apps:[{name:"Lofi radio",url:"https://www.youtube.com/embed/rFZHOHl-L8A"},{name:"Rain radar",url:"https://embed.windy.com/embed2.html?lat=60.17&lon=24.94&zoom=6&overlay=radar"}],
+  snoozeUntil:null,timerEnd:null,ytKey:"",ytAdded:false,customName:"",
+  ytSaved:[{id:"rFZHOHl-L8A",title:"lofi hip hop radio – beats to relax/study to",ch:"Lofi Girl",live:true},{id:"VAlMDl00mYY",title:"sleep lofi radio – relaxing music to sleep/dream to",ch:"Lofi Girl",live:true},{id:"E2vONfzoyRI",title:"jazz lofi radio – beats to chill/study to",ch:"Lofi Girl",live:true},{id:"4xDzrJKXOOY",title:"synthwave radio – beats to chill/game to",ch:"Lofi Girl",live:true}]};
 let S=JSON.parse(JSON.stringify(DEF));
 try{const st=JSON.parse(localStorage.getItem("bedside3")||localStorage.getItem("bedside2")||"{}");
   if(typeof st.face==="number")st.face=["sky","cards","analog"][st.face]||"sky";
-  ["face","h24","secs","nightAuto","nightFrom","nightTo","nightDim","dayDim","nightFace","sun","tone","keepAwake","idleReturn","city","alarms","apps","snoozeUntil","timerEnd","wall"].forEach(k=>{if(st[k]!==undefined)S[k]=st[k]})}catch(e){}
+  ["face","h24","secs","nightAuto","nightFrom","nightTo","nightDim","dayDim","nightFace","sun","tone","keepAwake","idleReturn","city","alarms","apps","snoozeUntil","timerEnd","wall","faceCfg","ytKey","ytSaved","ytAdded","customName"].forEach(k=>{if(st[k]!==undefined)S[k]=st[k]})}catch(e){}
 if(!FACES.some(f=>f[0]===S.face))S.face="sky";
+/* the old lofi stream link was taken down; point everything at the current one */
+S.apps.forEach(a=>{if(a.url)a.url=a.url.replace("jfKfPfyJRdk","rFZHOHl-L8A")});S.ytSaved=(S.ytSaved||[]).map(v=>v.id==="jfKfPfyJRdk"?{...v,id:"rFZHOHl-L8A",live:true}:v);
+if(S.tone==="trill")S.tone="birds";
 let photo=null;try{photo=localStorage.getItem("bedside-photo")}catch(e){}
 if(S.wall==="photo"&&!photo)S.wall="auto";
 const save=()=>{try{localStorage.setItem("bedside3",JSON.stringify(S))}catch(e){}};
+const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dec=x=>{const t=document.createElement("textarea");t.innerHTML=x||"";return t.value};
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),1800)}
 
 /* ---------- icons ---------- */
@@ -443,9 +461,6 @@ paintIcons();
   for(let h=1;h<=12;h++){const a=h*30*Math.PI/180;n+=`<text x="${(100+73*Math.sin(a)).toFixed(2)}" y="${(100-73*Math.cos(a)).toFixed(2)}">${h}</text>`}
   $("ticks").innerHTML=t;$("nums").innerHTML=n})();
 
-/* seven-segment digits */
-const SEG={0:"abcdef",1:"bc",2:"abdeg",3:"abcdg",4:"bcfg",5:"acdfg",6:"acdefg",7:"abc",8:"abcdefg",9:"abcdfg"," ":""};
-const segHTML=str=>[...str].map(ch=>ch===":"?'<span class="scol"></span>':`<span class="seg">${"abcdefg".split("").map(s=>`<i class="${s}${(SEG[ch]||"").includes(s)?" on":""}"></i>`).join("")}</span>`).join("");
 
 /* ---------- wallpaper ---------- */
 const clockPage=$("clockPage");
@@ -464,6 +479,7 @@ function place(el,x,anim){el.style.transition=anim?"transform .34s cubic-bezier(
 function buildApps(){
   track.querySelectorAll(".page.app").forEach(p=>p.remove());
   S.apps.forEach((a,i)=>{const p=document.createElement("section");p.className="page app"+(a.out?" out":"");p.dataset.i=i;
+    if(a.type==="youtube"){p.classList.add("yt");buildYt(p);track.appendChild(p);return}
     p.innerHTML=a.out
       ?'<div class="launch"><span class="lic" data-ic="ext"></span><b></b><a class="chip solid big" target="_blank" rel="noopener">Open</a><p>This site doesn\'t allow being shown inside another page, so it opens in its own app or the browser. Use the back button to return to the clock.</p></div>'
       :'<div class="fallback"><b></b><small></small><p class="why">Loading…</p><a class="chip" target="_blank" rel="noopener">Open in browser</a></div>';
@@ -479,7 +495,7 @@ function launchUrl(u){const m=u.match(/youtube(?:-nocookie)?\.com\/embed\/([\w-]
 let framesBlocked=false;
 document.addEventListener("securitypolicyviolation",e=>{if(/frame/.test(e.effectiveDirective||e.violatedDirective||"")){framesBlocked=true;
   document.querySelectorAll(".app .why").forEach(el=>el.textContent="This preview page isn't allowed to show other websites. Open your hosted copy (Vercel) on the phone and it loads there.")}});
-function ensureLoaded(i){const p=pages[i];if(!p||!p.classList.contains("app")||p.classList.contains("out")||p.querySelector("iframe"))return;
+function ensureLoaded(i){const p=pages[i];if(!p||!p.classList.contains("app")||p.classList.contains("out")||p.classList.contains("yt")||p.querySelector("iframe"))return;
   if(!framesBlocked)setTimeout(()=>{const w=p.querySelector(".why");if(w&&!framesBlocked)w.textContent="Still blank? The site may refuse to be shown inside another page. Remove it in Settings and add it again, and it switches to an Open button if it's a known one."},6000);
   const a=S.apps[p.dataset.i],f=document.createElement("iframe");f.src=a.url;f.title=a.name;
   f.allow="autoplay; fullscreen; encrypted-media; picture-in-picture; camera; microphone; geolocation";f.setAttribute("allowfullscreen","");f.referrerPolicy="strict-origin-when-cross-origin";p.appendChild(f)}
@@ -498,16 +514,19 @@ let g=null,swallow=false;
 screenEl.addEventListener("pointerdown",e=>{
   if(e.target.closest("#panel,#ring,#pill"))return;
   const edge=e.target.dataset?e.target.dataset.edge:null;
+  if(e.target.closest("#editor"))return;
+  if(editing){closeEditor();return}
   if(cur>0&&!edge)return;
   g={x:e.clientX,y:e.clientY,t:Date.now(),axis:null,id:e.pointerId,edge,nb:null};
+  if(cur===0){const me=g;g.lp=setTimeout(()=>{if(g===me&&!g.axis){g=null;openEditor()}},550)}
   try{screenEl.setPointerCapture(e.pointerId)}catch(_){}});
 screenEl.addEventListener("pointermove",e=>{
   if(!g||e.pointerId!==g.id)return;const dx=e.clientX-g.x,dy=e.clientY-g.y;
-  if(!g.axis){if(Math.hypot(dx,dy)<10)return;g.axis=Math.abs(dx)>Math.abs(dy)?"x":"y";
+  if(!g.axis){if(Math.hypot(dx,dy)<10)return;clearTimeout(g.lp);g.axis=Math.abs(dx)>Math.abs(dy)?"x":"y";
     if(g.axis==="y"&&(dy<0||(cur>0&&g.edge!=="t")))g.axis="none"}
   if(g.axis==="x")dragX(dx);else if(g.axis==="y")dragPanel(dy)});
-function endG(e,cancel){if(!g||e.pointerId!==g.id)return;const dx=e.clientX-g.x,dy=e.clientY-g.y,dt=Date.now()-g.t;
-  if(!g.axis){if(!cancel&&cur===0&&dt<450)cycleFace()}
+function endG(e,cancel){if(!g||e.pointerId!==g.id)return;clearTimeout(g.lp);const dx=e.clientX-g.x,dy=e.clientY-g.y,dt=Date.now()-g.t;
+  if(!g.axis){}
   else if(g.axis==="x")releaseX(cancel?0:dx,dt);
   else if(g.axis==="y")releasePanel(cancel?0:dy,dt);
   g=null}
@@ -553,17 +572,76 @@ const mins=t=>{const[a,b]=t.split(":").map(Number);return a*60+b};
 function isNightAuto(d){const n=d.getHours()*60+d.getMinutes(),f=mins(S.nightFrom),t=mins(S.nightTo);return f>t?(n>=f||n<t):(n>=f&&n<t)}
 let manualNight=null,lastAuto=null,nightOn=false;
 function computeNight(d){const a=S.nightAuto&&isNightAuto(d);if(lastAuto!==null&&a!==lastAuto)manualNight=null;lastAuto=a;return manualNight!==null?manualNight:a}
-const NUM=["twelve","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"];
-function words(d){let h=d.getHours()%12,m=Math.round(d.getMinutes()/5)*5;if(m===60){m=0;h=(h+1)%12}
-  const ch=`<b>${NUM[h]}</b>`,nh=`<b>${NUM[(h+1)%12]}</b>`;
-  const t={0:`${ch} o'clock`,5:`five past ${ch}`,10:`ten past ${ch}`,15:`quarter past ${ch}`,20:`twenty past ${ch}`,25:`twenty-five past ${ch}`,30:`half past ${ch}`,35:`twenty-five to ${nh}`,40:`twenty to ${nh}`,45:`quarter to ${nh}`,50:`ten to ${nh}`,55:`five to ${nh}`}[m];
-  return(d.getMinutes()%5===0?"It's ":"It's about ")+t}
 
 /* ---------- faces ---------- */
 const faceEls=[...document.querySelectorAll(".face")];
-const effFace=()=>(nightOn&&S.nightFace)?"night":S.face;
-function showFace(){const f=effFace();faceEls.forEach(el=>el.classList.toggle("on",el.dataset.f===f));document.body.classList.toggle("darkface",f==="night"||f==="retro")}
+const effFace=()=>(!editing&&nightOn&&S.nightFace&&S.face==="cards")?"sky":S.face;
+function showFace(){const f=effFace();faceEls.forEach(el=>el.classList.toggle("on",el.dataset.f===f))}
 function cycleFace(){const i=FACES.findIndex(f=>f[0]===S.face);S.face=FACES[(i+1)%FACES.length][0];save();if(nightOn&&S.nightFace)manualNight=false;tick();toast(FACES.find(f=>f[0]===S.face)[1])}
+
+/* ---------- customizable faces ---------- */
+const INFO=[["none","Nothing"],["weather","Weather"],["cond","Conditions"],["hilo","High / low"],["alarm","Next alarm"],["alarmLong","Next alarm, in words"],["date","Date"],["dateShort","Short date"],["day","Weekday"],["dateNum","Day and month"],["city","Weather city"],["seconds","Seconds"]];
+const SLOTS={sky:[["tl","Top left"],["tr","Top right"],["bottom","Bottom"]],cards:[["c1","Card corner"],["c2","Card corner, second"],["bottom","Under the cards"]],
+  analog:[["tl","Top left"],["tr","Top right"],["bottom","Bottom"]],bold:[["b1","Under the time, first"],["b2","Under the time, second"],["b3","Under the time, third"]]};
+const COLORS=[["auto","Auto",""],["warm","Warm","#ffd6a0"],["mint","Mint","#b4f2d4"],["blue","Blue","#bcdcff"],["pink","Pink","#ffc2d6"],["red","Red","#ff7b6b"]];
+const SIZE=["size","Time size",[["s","Small"],["m","Medium"],["l","Large"]]];
+const STYLE={sky:[SIZE,["weight","Thickness",[["200","Thin"],["300","Light"],["500","Medium"],["700","Bold"]]],["color","Time color",COLORS]],
+  cards:[SIZE,["cardStyle","Cards",[["white","White"],["dark","Dark"],["glass","Glass"]]]],
+  analog:[SIZE,["nums","Numbers",[["on","Show"],["off","Hide"]]],["hand","Second hand",[["auto","Like the clock"],["on","Always"],["off","Never"]]],["accent","Hand color",[["orange","Orange","#ff8a3d"],["red","Red","#ff4d4d"],["blue","Blue","#5ab0ff"],["white","White","#ffffff"]]]],
+  bold:[SIZE,["color","Time color",COLORS],["fade","Minutes",[["on","Faded"],["off","Solid"]]]]};
+const DEFCFG={sky:{tl:"weather",tr:"alarm",bottom:"cond",size:"m",weight:"300",color:"auto"},
+  cards:{c1:"weather",c2:"alarm",bottom:"alarmLong",size:"m",cardStyle:"white"},
+  analog:{tl:"dateShort",tr:"weather",bottom:"alarmLong",size:"l",nums:"on",hand:"auto",accent:"orange"},
+  bold:{b1:"day",b2:"dateNum",b3:"weather",size:"m",color:"auto",fade:"on"}};
+const fc=f=>Object.assign({},DEFCFG[f],(S.faceCfg||{})[f]);
+function setCfg(f,k,v){S.faceCfg=S.faceCfg||{};S.faceCfg[f]=Object.assign({},S.faceCfg[f],{[k]:v});save();applyFaceStyles();tick()}
+function infoHTML(type,c){const{d,n,wk}=c;
+  switch(type){
+    case"weather":return{h:`${svg(wk)}<span>${WX?WX.t+"°":"--°"}</span>`};
+    case"cond":return{h:WX?wxText(WX.c,WX.day):"Weather unavailable"};
+    case"hilo":return{h:WX?`<small>H</small>${WX.max}° <small>L</small>${WX.min}°`:"--° / --°"};
+    case"alarm":return{h:`${svg("alarm")}<span>${n?fmt(n):""}</span>`,off:!n};
+    case"alarmLong":return{h:`${svg("alarm")}<span>${n?`Alarm ${dayWord(n)} at ${fmt(n)}`:"No alarms set"}</span>`,off:!n};
+    case"date":return{h:esc(d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}))};
+    case"dateShort":return{h:esc(d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}))};
+    case"day":return{h:DAYS[d.getDay()]};
+    case"dateNum":return{h:d.getDate()+"."+(d.getMonth()+1)+"."};
+    case"city":return{h:esc(S.city.name)};
+    case"seconds":return{h:`<span style="font-variant-numeric:tabular-nums">${pad(d.getSeconds())}</span>`};
+    default:return{h:""}}}
+function renderSlots(d,n,timerTxt){const wk=WX?wxKind(WX.c,WX.day):"cloud",c={d,n,wk};
+  faceEls.forEach(face=>{const f=face.dataset.f,cfg=fc(f);
+    face.querySelectorAll("[data-slot]").forEach(el=>{const name=el.dataset.slot;
+      const r=(timerTxt&&name==="bottom")?{h:`${svg("timer")}<span>Timer ${timerTxt}</span>`}:infoHTML(cfg[name],c);
+      if(el._h!==r.h){el.innerHTML=r.h;el._h=r.h}el.classList.toggle("off",!!r.off)})});
+  const b=fc("bold"),parts=["b1","b2","b3"].map(k=>infoHTML(b[k],c).h).filter(Boolean).map(h=>`<span>${h}</span>`).join("<i></i>");
+  const bs=$("bsub");if(bs._h!==parts){bs.innerHTML=parts;bs._h=parts}}
+function applyFaceStyles(){const sz={s:.78,m:1,l:1.15},col=k=>(COLORS.find(x=>x[0]===k)||COLORS[0])[2];
+  faceEls.forEach(face=>{const f=face.dataset.f,cfg=fc(f);
+    let ts=sz[cfg.size]||1;if(f==="analog")ts=ts/1.15;
+    face.style.setProperty("--ts",ts);face.style.setProperty("--tw",cfg.weight||300);
+    const cc=col(cfg.color);if(cc)face.style.setProperty("--tc",cc);else face.style.removeProperty("--tc");
+    face.style.setProperty("--fade",cfg.fade==="off"?1:.5);
+    if(f==="cards")face.dataset.cs=cfg.cardStyle});
+  const a=fc("analog"),acc=(STYLE.analog[3][2].find(x=>x[0]===a.accent)||STYLE.analog[3][2][0])[2];
+  $("nums").style.display=a.nums==="off"?"none":"";$("sh").setAttribute("stroke",acc);$("hc").setAttribute("fill",acc)}
+function secHand(){const h=fc("analog").hand;return h==="on"||(h==="auto"&&S.secs)}
+
+/* customize editor (hold the clock) */
+let editing=false;
+function openEditor(){if(cur!==0)goTo(0);closePanel();editing=true;document.body.classList.add("editing");$("editor").hidden=false;try{navigator.vibrate&&navigator.vibrate(15)}catch(e){}renderEditor();tick()}
+function closeEditor(){editing=false;document.body.classList.remove("editing");$("editor").hidden=true;tick()}
+function renderEditor(){const f=S.face,cfg=fc(f),name=FACES.find(x=>x[0]===f)[1];$("edTitle").textContent="Customize "+name;
+  $("edFaces").innerHTML=FACES.map(([id,nm])=>`<button class="opt${id===f?" on":""}" data-face="${id}">${nm}</button>`).join("");
+  $("edFaces").querySelectorAll("button").forEach(b=>b.onclick=()=>{S.face=b.dataset.face;save();tick();renderEditor()});
+  $("edSlots").innerHTML=SLOTS[f].map(([k,lbl])=>`<label class="erow"><span>${lbl}</span><select data-k="${k}">${INFO.map(([v,t])=>`<option value="${v}"${cfg[k]===v?" selected":""}>${t}</option>`).join("")}</select></label>`).join("");
+  $("edSlots").querySelectorAll("select").forEach(sl=>sl.onchange=()=>setCfg(f,sl.dataset.k,sl.value));
+  $("edStyle").innerHTML=STYLE[f].map(([k,lbl,opts])=>`<div class="erow"><span>${lbl}</span><div class="opts">${opts.map(([v,t,c])=>`<button class="opt${cfg[k]===v?" on":""}" data-k="${k}" data-v="${v}">${c?`<i class="sw8" style="background:${c}"></i>`:""}${t}</button>`).join("")}</div></div>`).join("");
+  $("edStyle").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{setCfg(f,b.dataset.k,b.dataset.v);renderEditor()})}
+$("edDone").onclick=closeEditor;
+$("edReset").onclick=()=>{if(S.faceCfg)delete S.faceCfg[S.face];save();applyFaceStyles();tick();renderEditor();toast("Face reset")};
+$("custBtn").onclick=()=>openEditor();
+screenEl.addEventListener("contextmenu",e=>{if(cur===0)e.preventDefault()});
 
 /* bind values to every [data-b] element */
 const BC={};
@@ -581,24 +659,57 @@ function dayWord(n){const t=new Date(),tm=new Date();tm.setDate(t.getDate()+1);
   return n.toDateString()===t.toDateString()?"today":n.toDateString()===tm.toDateString()?"tomorrow":DAYS[n.getDay()]}
 let ringing=null,lastFire=0;
 
-let ctx=null,ringTimer=null,master=null;
+let ctx=null,master=null,loopT=null,volT=null,noiseBuf=null,customUrl=null,customAudio=null,prevT=null;
 function unlock(){try{if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==="suspended")ctx.resume()}catch(e){}}
 ["pointerdown","keydown"].forEach(ev=>addEventListener(ev,unlock,true));
-function note(f,t,dur,type,vol){const o=ctx.createOscillator(),gn=ctx.createGain();o.type=type;o.frequency.value=f;
-  gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(vol,t+.02);gn.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(gn).connect(master);o.start(t);o.stop(t+dur+.05)}
-function pattern(){const t=ctx.currentTime;
-  if(S.tone==="chime")[523.25,659.25,783.99,1046.5].forEach((f,i)=>note(f,t+i*.28,1.6,"sine",.35));
-  else if(S.tone==="birds")for(let i=0;i<6;i++){const o=ctx.createOscillator(),gn=ctx.createGain(),s=t+i*.18;o.frequency.setValueAtTime(2400,s);o.frequency.exponentialRampToValueAtTime(3600,s+.08);gn.gain.setValueAtTime(0,s);gn.gain.linearRampToValueAtTime(.18,s+.01);gn.gain.exponentialRampToValueAtTime(.0001,s+.12);o.connect(gn).connect(master);o.start(s);o.stop(s+.15)}
-  else[0,.25,.5,.75].forEach(d=>note(880,t+d,.15,"square",.15))}
-function startSound(test){unlock();if(!ctx)return;stopSound();master=ctx.createGain();master.connect(ctx.destination);
-  const t=ctx.currentTime;master.gain.setValueAtTime(test?.8:.15,t);if(!test)master.gain.linearRampToValueAtTime(1,t+60);
-  pattern();ringTimer=setInterval(pattern,2000)}
-function stopSound(){clearInterval(ringTimer);ringTimer=null;if(master){try{master.gain.setTargetAtTime(0,ctx.currentTime,.1)}catch(e){}master=null}}
+const MIDI=n=>440*Math.pow(2,(n-69)/12);
+function tn(f,t,dur,o={}){const{type="sine",vol=.3,att=.008}=o;const os=ctx.createOscillator(),gn=ctx.createGain();os.type=type;os.frequency.setValueAtTime(f,t);
+  gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(vol,t+att);gn.gain.exponentialRampToValueAtTime(.0001,t+dur);os.connect(gn).connect(master);os.start(t);os.stop(t+dur+.05)}
+function chirp(s,f1,f2,dur,vol){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(f1,s);o.frequency.exponentialRampToValueAtTime(f2,s+dur*.7);
+  g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(vol,s+.01);g.gain.exponentialRampToValueAtTime(.0001,s+dur);o.connect(g).connect(master);o.start(s);o.stop(s+dur+.03)}
+function noiseSrc(){if(!noiseBuf){noiseBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+  const n=ctx.createBufferSource();n.buffer=noiseBuf;n.loop=true;return n}
+const TONES={
+ chime:{name:"Soft chime",len:2.2,play:t=>[72,76,79,84].forEach((n,i)=>tn(MIDI(n),t+i*.28,1.6,{vol:.32}))},
+ marimba:{name:"Marimba",len:2.2,play:t=>[67,72,76,79,76,72].forEach((n,i)=>{tn(MIDI(n),t+i*.17,.55,{vol:.36,att:.003});tn(MIDI(n)*4,t+i*.17,.09,{vol:.08,att:.002})})},
+ piano:{name:"Piano",len:3,play:t=>[60,64,67,71,72,76].forEach((n,i)=>{tn(MIDI(n),t+i*.2,2.2,{type:"triangle",vol:.22,att:.004});tn(MIDI(n)*2,t+i*.2,1,{vol:.05,att:.004})})},
+ harp:{name:"Harp",len:3,play:t=>[60,62,64,67,69,72,74,76,79,81,84].forEach((n,i)=>tn(MIDI(n),t+i*.07,1.8,{type:"triangle",vol:.15,att:.004}))},
+ bells:{name:"Bells",len:4.4,play:t=>[76,72,67].forEach((n,i)=>[[1,.28],[2.76,.11],[5.4,.05],[8.93,.025]].forEach(([q,v])=>tn(MIDI(n)*q,t+i*1.2,3.6/Math.sqrt(q),{vol:v,att:.003})))},
+ pad:{name:"Warm pad",len:6,play:t=>{const f=ctx.createBiquadFilter(),g=ctx.createGain();f.type="lowpass";f.frequency.value=900;
+   g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09,t+2);g.gain.linearRampToValueAtTime(.09,t+3.8);g.gain.linearRampToValueAtTime(0,t+5.8);f.connect(g).connect(master);
+   [57,60,64,67,72].forEach(n=>[-6,6].forEach(c=>{const o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=MIDI(n);o.detune.value=c;o.connect(f);o.start(t);o.stop(t+6)}))}},
+ waves:{name:"Ocean",len:7,play:t=>{const n=noiseSrc(),f=ctx.createBiquadFilter(),g=ctx.createGain();f.type="lowpass";f.frequency.setValueAtTime(300,t);f.frequency.linearRampToValueAtTime(1200,t+3);f.frequency.linearRampToValueAtTime(300,t+7);
+   g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.5,t+3);g.gain.linearRampToValueAtTime(0,t+7);n.connect(f).connect(g).connect(master);n.start(t);n.stop(t+7.1)}},
+ birds:{name:"Morning birds",len:2.6,play:t=>{for(let i=0;i<5;i++)chirp(t+i*.16,2400,3600,.12,.16);for(let i=0;i<3;i++)chirp(t+1.3+i*.22,3800,2600,.18,.12)}},
+ digital:{name:"Digital",len:1.6,play:t=>[0,.13,.26,.39].forEach((d,i)=>tn(i%2?1318.5:1046.5,t+d,.1,{type:"square",vol:.09,att:.002}))},
+ beep:{name:"Classic beep",len:2,play:t=>[0,.25,.5,.75].forEach(d=>tn(880,t+d,.15,{type:"square",vol:.13,att:.002}))},
+ ring:{name:"Bell clock",len:2,play:t=>{for(let i=0;i<32;i++){const f=i%2?1720:1580;tn(f,t+i*.038,.22,{type:"triangle",vol:.07,att:.002});tn(f*2.7,t+i*.038,.1,{vol:.02,att:.002})}}}};
+function startSound(test){unlock();stopSound();
+  if(S.tone==="custom"&&customUrl){const a=new Audio(customUrl);customAudio=a;a.loop=!test;a.volume=test?.8:.15;a.play().catch(()=>{});
+    if(!test){let v=.15;volT=setInterval(()=>{v=Math.min(1,v+.015);if(customAudio)customAudio.volume=v},1000)}return}
+  if(!ctx)return;master=ctx.createGain();master.connect(ctx.destination);const t=ctx.currentTime;master.gain.setValueAtTime(test?.8:.15,t);if(!test)master.gain.linearRampToValueAtTime(1,t+60);
+  const tone=TONES[S.tone]||TONES.chime;const loop=()=>{if(!master)return;tone.play(ctx.currentTime+.03);if(!test)loopT=setTimeout(loop,tone.len*1000)};loop()}
+function stopSound(){clearTimeout(loopT);loopT=null;clearInterval(volT);if(customAudio){customAudio.pause();customAudio=null}
+  if(master){const m=master;master=null;try{m.gain.cancelScheduledValues(ctx.currentTime);m.gain.setTargetAtTime(0,ctx.currentTime,.06)}catch(e){}setTimeout(()=>{try{m.disconnect()}catch(e){}},500)}}
+function preview(){startSound(true);clearTimeout(prevT);prevT=setTimeout(stopSound,7500)}
+/* your own sound, kept in the browser's file storage */
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open("bedside",1);r.onupgradeneeded=()=>r.result.createObjectStore("files");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbPut(k,v){const db=await idb();return new Promise((res,rej)=>{const tx=db.transaction("files","readwrite");tx.objectStore("files").put(v,k);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+async function idbGet(k){const db=await idb();return new Promise((res,rej)=>{const q=db.transaction("files").objectStore("files").get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+idbGet("sound").then(b=>{if(b){customUrl=URL.createObjectURL(b);if(!$("vAlarms").hidden)renderTones()}}).catch(()=>{});
+function renderTones(){const box=$("tones");
+  box.innerHTML=Object.entries(TONES).map(([k,v])=>`<button class="tone${S.tone===k?" on":""}" data-t="${k}">${v.name}</button>`).join("")+
+    `<button class="tone${S.tone==="custom"?" on":""}" data-t="custom">${customUrl?"Your sound: "+esc(S.customName||"file"):"Your own sound…"}</button>`;
+  box.querySelectorAll(".tone").forEach(b=>b.onclick=()=>{const k=b.dataset.t;if(k==="custom"&&!customUrl){$("soundIn").click();return}S.tone=k;save();renderTones();preview()});
+  $("toneNote").innerHTML=customUrl?'Tap a sound to hear it. <button class="linkbtn" id="chgSound">Use a different file</button>':"Tap a sound to hear it. Your own sound can be any audio file, like an MP3 or WAV.";
+  const c=$("chgSound");if(c)c.onclick=()=>$("soundIn").click()}
+$("soundIn").onchange=e=>{const f=e.target.files[0];if(!f)return;customUrl=URL.createObjectURL(f);S.customName=f.name;S.tone="custom";save();
+  idbPut("sound",f).catch(()=>toast("This sound works until the page is reloaded"));renderTones();preview();e.target.value=""};
 function ring(kind,d){ringing=kind;closePanel();goTo(0);$("ringL").textContent=kind==="timer"?"Timer done":"Alarm";$("ringT").textContent=kind==="timer"?"0:00":fmt(d);
   $("snooze").hidden=kind==="timer";$("ring").hidden=false;startSound(false)}
 $("stop").onclick=()=>{if(ringing==="timer")S.timerEnd=null;else S.snoozeUntil=null;ringing=null;save();stopSound();$("ring").hidden=true;tick()};
 $("snooze").onclick=()=>{ringing=null;S.snoozeUntil=Date.now()+9*60000;save();stopSound();$("ring").hidden=true;toast("Snoozed for 9 minutes");tick()};
-$("alTest").onclick=()=>{startSound(true);setTimeout(stopSound,4200)};
+$("alTest").onclick=()=>preview();
 
 /* ---------- weather ---------- */
 let WX=null;
@@ -624,29 +735,25 @@ function tick(){const d=new Date();const[H,M,AP]=hm(d);
   B("temp",WX?WX.t+"°":"--°");
   const s=d.getSeconds(),m=d.getMinutes()+s/60,hr=(d.getHours()%12)+m/60;
   $("hh").setAttribute("transform",`rotate(${hr*30} 100 100)`);$("mh").setAttribute("transform",`rotate(${m*6} 100 100)`);
-  $("sh").setAttribute("transform",`rotate(${s*6} 100 100)`);$("sh").style.display=S.secs?"":"none";
-  const w=words(d);if($("wtext").innerHTML!==w)$("wtext").innerHTML=w;
-  const rs=(S.h24?H:H.padStart(2," "))+":"+M;if(rs!==lastRetro){$("segBig").innerHTML=segHTML(rs);lastRetro=rs}
+  $("sh").setAttribute("transform",`rotate(${s*6} 100 100)`);$("sh").style.display=secHand()?"":"none";
   // timer
   let timerTxt=null;if(S.timerEnd){const left=S.timerEnd-d.getTime();
     if(left<=0){if(!ringing)ring("timer")}else{const t=Math.ceil(left/1000);timerTxt=Math.floor(t/60)+":"+pad(t%60)}}
   // next alarm
   const n=nextAlarm();
-  document.querySelectorAll("[data-al]").forEach(el=>el.classList.toggle("off",!n));
+  renderSlots(d,n,timerTxt);
   B("alarmT",n?fmt(n):"No alarm");B("alarmT24",n&&n-d<86400000?fmt(n):"");
   B("alarmWhen",n?dayWord(n).replace(/^./,c=>c.toUpperCase()):"None set");
   B("alarmLong",timerTxt?"Timer "+timerTxt:n?`Alarm ${dayWord(n)} at ${fmt(n)}`:"No alarms set");
   B("cond",timerTxt?"Timer "+timerTxt:WX?wxText(WX.c,WX.day):date);
   B("condHilo",WX?`${wxText(WX.c,WX.day)} · ${WX.max}° / ${WX.min}°`:"Weather unavailable");
-  if(d.getDay()!==lastDay||n!==null){const al=n&&n-d<86400000?`<span class="on">AL ${fmt(n)}</span>`:"<span>AL</span>";
-    $("rdays").innerHTML=["MON","TUE","WED","THU","FRI","SAT","SUN"].map((x,i)=>`<span class="${(i+1)%7===d.getDay()?"on":""}">${x}</span>`).join("")+al;lastDay=d.getDay()}
   // alarm + sunrise
   const na=nextAlarm(new Date(d.getTime()-60000));let sunO=0;
   if(na&&!ringing){const left=na-d;
     if(S.sun>0&&left>0&&left<S.sun*60000)sunO=1-left/(S.sun*60000);
     if(left<=0&&na.getTime()!==lastFire){lastFire=na.getTime();if(S.snoozeUntil&&S.snoozeUntil<=d.getTime())S.snoozeUntil=null;manualNight=null;ring("alarm",na)}}
   $("sun").style.opacity=sunO.toFixed(3);
-  $("dim").style.opacity=(ringing||sunO>0)?0:((nightOn?S.nightDim:S.dayDim)/100);
+  $("dim").style.opacity=(ringing||sunO>0||editing)?0:((nightOn?S.nightDim:S.dayDim)/100);
   if(S.idleReturn>0&&cur>0&&!panel.classList.contains("open")&&Date.now()-appOpenedAt>S.idleReturn*60000)goTo(0);
   if(panel.classList.contains("open")&&!$("vQuick").hidden)renderQuick()}
 
@@ -670,16 +777,10 @@ $("tTimer").onclick=()=>{const r=$("timerRow");r.hidden=!r.hidden;if(r.hidden)re
   r.querySelectorAll("button").forEach(b=>b.onclick=()=>{const m=+b.dataset.m;S.timerEnd=m?Date.now()+m*60000:null;save();r.hidden=true;toast(m?`Timer set for ${b.textContent}`:"Timer cancelled");tick();renderQuick()})};
 
 /* faces picker */
-function facePreview(id){const bg=(id==="retro"||id==="night")?"#000":wallBg(S.wall);const w=WALLS.find(x=>x.id===S.wall);const ink=(id==="retro"||id==="night")?"#fff":(w&&w.ink==="dark"?"#1d2228":"#fff");
-  const inner={sky:'<span class="pt" style="font-weight:300">10:09</span>',
-    cards:'<span class="mcards"><span>10</span><span>09</span></span>',
-    analog:'<svg viewBox="0 0 40 40" width="58" height="58" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="20" cy="20" r="18" stroke-opacity=".5"/><path d="M20 20V9M20 20l7 4" stroke-width="2.4"/></svg>',
-    bold:'<span class="pt" style="font-weight:700;letter-spacing:-.05em">10<span style="opacity:.5">:09</span></span>',
-    words:'<span style="font-family:var(--f-word);font-style:italic;font-size:20px;line-height:1.05;padding:0 12px;text-align:center">It\'s ten past <b>ten</b></span>',
-    info:'<span style="display:flex;gap:10px;align-items:center"><span class="pt" style="font-weight:300;font-size:28px">10:09</span><span style="border-left:1px solid currentColor;opacity:.75;padding-left:8px;font-size:12px;line-height:1.4">4° Cloudy<br>Alarm 07:00</span></span>',
-    retro:`<span class="segs" style="--on:var(--led);--offc:rgba(255,59,47,.07);--t:.085em">${segHTML("10:09")}</span>`,
-    night:'<span class="pt" style="font-weight:200;color:#d23a26">10:09</span>'}[id];
-  return`<div class="pv" style="background:${bg};color:${ink}">${inner}</div>`}
+function facePreview(id){const w=WALLS.find(x=>x.id===S.wall);const ink=w&&w.ink==="dark"?"#1d2228":"#fff";
+  const inner={sky:'<span class="pt" style="font-weight:300">10:09</span>',bold:'<span class="pt" style="font-weight:700;letter-spacing:-.05em">10<span style="opacity:.5">:09</span></span>',cards:'<span class="mcards"><span>10</span><span>09</span></span>',
+    analog:'<svg viewBox="0 0 40 40" width="58" height="58" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="20" cy="20" r="18" stroke-opacity=".5"/><path d="M20 20V9M20 20l7 4" stroke-width="2.4"/></svg>'}[id];
+  return`<div class="pv" style="background:${wallBg(S.wall)};color:${ink}">${inner}</div>`}
 function renderFaces(){const g=$("faceGrid");g.innerHTML=FACES.map(([id,name,desc])=>`<button class="pcard${S.face===id?" on":""}" data-id="${id}">${facePreview(id)}<span>${name}</span><small>${desc}</small></button>`).join("");
   g.querySelectorAll(".pcard").forEach(b=>b.onclick=()=>{S.face=b.dataset.id;save();if(nightOn&&S.nightFace)manualNight=false;tick();renderFaces()})}
 
@@ -699,7 +800,7 @@ $("photoIn").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new Fi
   rd.readAsDataURL(f);e.target.value=""};
 
 /* alarms view */
-function renderAlarms(){$("sunMin").value=S.sun;$("tone").value=S.tone;const box=$("alarms");box.innerHTML="";
+function renderAlarms(){$("sunMin").value=S.sun;renderTones();const box=$("alarms");box.innerHTML="";
   S.alarms.forEach((a,i)=>{const el=document.createElement("div");el.className="alarm";
     el.innerHTML=`<input type="time" id="al${i}" value="${a.t}" aria-label="Alarm time"><div class="days">${[1,2,3,4,5,6,0].map(k=>`<button data-k="${k}" class="${a.days.includes(k)?"on":""}" aria-label="${DAYS[k]}">${DAYS[k][0]}</button>`).join("")}</div><button class="sw ${a.on?"on":""}" aria-label="Alarm on"></button><button class="rm">Remove</button>`;
     el.querySelector("input").onchange=e=>{if(e.target.value){a.t=e.target.value;S.snoozeUntil=null;save()}};
@@ -710,14 +811,14 @@ function renderAlarms(){$("sunMin").value=S.sun;$("tone").value=S.tone;const box
   if(!S.alarms.length)box.innerHTML='<p class="note">No alarms yet. Add one below; with no days picked it rings once.</p>'}
 $("alAdd").onclick=()=>{S.alarms.push({t:"08:00",days:[],on:true});save();renderAlarms()};
 $("sunMin").onchange=e=>{S.sun=+e.target.value;save()};
-$("tone").onchange=e=>{S.tone=e.target.value;save()};
 
 /* settings view */
 function bindSw(id,key,cb){const b=$(id);b.classList.toggle("on",!!S[key]);b.onclick=()=>{S[key]=!S[key];save();b.classList.toggle("on",!!S[key]);cb&&cb();tick()}}
 function renderSettings(){
   bindSw("sw24","h24");bindSw("swSec","secs");bindSw("swAuto","nightAuto",()=>manualNight=null);bindSw("swNF","nightFace");bindSw("swAwake","keepAwake",wake);
   $("idleSel").value=S.idleReturn;$("nFrom").value=S.nightFrom;$("nTo").value=S.nightTo;
-  $("cityNote").textContent=`Currently ${S.city.name}.`;renderApps()}
+  $("cityNote").textContent=`Currently ${S.city.name}.`;$("ytKey").value=S.ytKey||"";renderApps()}
+$("ytKeySave").onclick=()=>{S.ytKey=$("ytKey").value.trim();save();toast(S.ytKey?"YouTube search is on":"API key removed")};
 $("idleSel").onchange=e=>{S.idleReturn=+e.target.value;save()};
 $("nFrom").onchange=e=>{if(e.target.value){S.nightFrom=e.target.value;manualNight=null;save();tick()}};
 $("nTo").onchange=e=>{if(e.target.value){S.nightTo=e.target.value;manualNight=null;save();tick()}};
@@ -725,7 +826,7 @@ function renderApps(){const box=$("appList");box.innerHTML="";
   if(!S.apps.length){box.innerHTML='<p class="note">No websites yet. Add one below and it shows up when you swipe left on the clock.</p>';return}
   S.apps.forEach((a,i)=>{const r=document.createElement("div");r.className="appRow";
     r.innerHTML=`<div style="min-width:0"><b></b><small></small></div><div class="acts"><button class="mini" data-a="up" aria-label="Move up" data-ic="up"></button><button class="mini" data-a="down" aria-label="Move down" data-ic="down"></button><button class="mini" data-a="rm" aria-label="Remove" data-ic="x"></button></div>`;
-    r.querySelector("b").textContent=a.name;r.querySelector("small").textContent=a.url;paintIcons(r);
+    r.querySelector("b").textContent=a.name;r.querySelector("small").textContent=a.type==="youtube"?"Built-in YouTube: saved videos and search":a.url;paintIcons(r);
     r.querySelectorAll("button").forEach(b=>b.onclick=()=>{const act=b.dataset.a;
       if(act==="rm"){S.apps.splice(i,1);toast(`Removed ${a.name}`)}
       else{const j=act==="up"?i-1:i+1;if(j<0||j>=S.apps.length)return;[S.apps[i],S.apps[j]]=[S.apps[j],S.apps[i]]}
@@ -742,15 +843,48 @@ function normApp(u){u=u.trim();if(!/^https?:\/\//i.test(u))u="https://"+u;const 
     if(p==="/watch")id=q.get("v");else if(/^\/(live|shorts)\//.test(p))id=p.split("/")[2];
     if(id)return{url:YT+id+"?"+YTQ+(list?"&list="+list:""),out:false};
     if(list)return{url:YT+"videoseries?list="+list+"&"+YTQ,out:false};
-    return{url:url.href,out:true}}
+    return{url:"https://www.youtube.com/",type:"youtube",out:false}}
   if(h==="youtu.be")return{url:YT+p.slice(1)+"?"+YTQ,out:false};
   if(h==="open.spotify.com"&&!p.startsWith("/embed"))return{url:"https://open.spotify.com/embed"+p,out:false};
   return{url:url.href,out:BLOCKS.test(h)}}
 $("appAdd").onclick=()=>{const raw=$("appUrl").value;if(!raw.trim()){$("appNote").textContent="Type a web address first, for example yle.fi/uutiset.";return}
   let a;try{a=normApp(raw)}catch(e){$("appNote").textContent=`"${raw}" doesn't look like a web address. Try something like yle.fi/uutiset.`;return}
   const name=$("appName").value.trim()||new URL(a.url).hostname.replace(/^www\./,"");
-  S.apps.push({name,url:a.url,out:a.out});save();appsDirty=true;$("appName").value="";$("appUrl").value="";
+  S.apps.push(a.type?{name:$("appName").value.trim()||"YouTube",type:"youtube",url:a.url}:{name,url:a.url,out:a.out});save();appsDirty=true;$("appName").value="";$("appUrl").value="";
   $("appNote").textContent=a.out?`Added ${name}. This site won't show inside the clock, so its page has a big button that opens it in the app or browser.`:`Added ${name}. Swipe left on the clock to find it.`;renderApps()};
+
+/* ---------- built-in YouTube ---------- */
+function ytId(u){try{u=u.trim();if(/^[\w-]{11}$/.test(u))return u;if(!/^https?:/i.test(u))u="https://"+u;const url=new URL(u),h=url.hostname.replace(/^(www|m|music)\./,"");
+  if(h==="youtu.be")return url.pathname.slice(1,12)||null;
+  if(h==="youtube.com"||h==="youtube-nocookie.com"){if(url.searchParams.get("v"))return url.searchParams.get("v");const m=url.pathname.match(/^\/(embed|live|shorts)\/([\w-]{11})/);if(m)return m[2]}}catch(e){}return null}
+function ytCard(v,saved){return`<div class="ytcard" data-id="${esc(v.id)}"><button class="ytplay" aria-label="Play ${esc(v.title)}"><span class="th"><img loading="lazy" alt="" src="${esc(v.thumb||`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`)}">${v.live?"<em>LIVE</em>":""}</span><b>${esc(v.title)}</b>${v.ch?`<small>${esc(v.ch)}</small>`:""}</button>${saved?'<button class="ytx mini" data-x aria-label="Remove from saved" data-ic="x"></button>':'<button class="ytx mini" data-s aria-label="Save video" data-ic="plus"></button>'}</div>`}
+function buildYt(p){
+  p.innerHTML=`<div class="ytwrap"><div class="ytbar"><form class="ytsearch"><input type="search" placeholder="Search YouTube" enterkeyhint="search" aria-label="Search YouTube"><button class="chip solid">Search</button></form><a class="chip" target="_blank" rel="noopener" href="https://www.youtube.com/">Open YouTube</a></div><p class="note ytmsg" hidden></p><div class="ythead"><h4 class="ytlabel">Saved</h4><button class="chip ytclear" hidden>Back to saved</button></div><div class="ytgrid"></div><form class="field ytadd"><input placeholder="Paste a YouTube link to save it" aria-label="YouTube link"><button class="chip">Save</button></form></div><div class="ytplayer" hidden><button class="chip ytback">${svg("back")} Videos</button></div>`;
+  const q=sel=>p.querySelector(sel);let results=null;
+  const msg=t=>{const m=q(".ytmsg");m.hidden=!t;m.textContent=t||""};
+  function show(){const list=results?results.items:S.ytSaved;q(".ytlabel").textContent=results?`Results for "${results.q}"`:"Saved";q(".ytclear").hidden=!results;q(".ytadd").hidden=!!results;
+    q(".ytgrid").innerHTML=list.length?list.map(v=>ytCard(v,!results)).join(""):'<p class="note">Nothing here yet. Paste a YouTube link below, or search.</p>';paintIcons(q(".ytgrid"))}
+  function play(id){const pl=q(".ytplayer"),old=pl.querySelector("iframe");if(old)old.remove();const f=document.createElement("iframe");
+    f.src=`https://www.youtube.com/embed/${id}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+    f.allow="autoplay; fullscreen; encrypted-media; picture-in-picture";f.setAttribute("allowfullscreen","");f.referrerPolicy="strict-origin-when-cross-origin";f.title="YouTube video";pl.appendChild(f);pl.hidden=false}
+  q(".ytgrid").onclick=e=>{const c=e.target.closest(".ytcard");if(!c)return;const id=c.dataset.id;
+    if(e.target.closest("[data-x]")){S.ytSaved=S.ytSaved.filter(v=>v.id!==id);save();show();return}
+    if(e.target.closest("[data-s]")){const v=results&&results.items.find(x=>x.id===id);if(v&&!S.ytSaved.some(x=>x.id===id)){S.ytSaved.unshift({id:v.id,title:v.title,ch:v.ch});save()}toast("Saved");return}
+    if(e.target.closest(".ytplay"))play(id)};
+  q(".ytback").onclick=()=>{const pl=q(".ytplayer"),f=pl.querySelector("iframe");if(f)f.remove();pl.hidden=true};
+  q(".ytclear").onclick=()=>{results=null;msg("");show()};
+  q(".ytsearch").onsubmit=async e=>{e.preventDefault();const term=q(".ytsearch input").value.trim();if(!term)return;q(".ytsearch input").blur();
+    if(!S.ytKey){msg("To search inside the clock, add a free YouTube API key in Settings, under YouTube. Saved videos and pasted links work without one.");return}
+    msg("Searching…");
+    try{const r=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=24&q=${encodeURIComponent(term)}&key=${encodeURIComponent(S.ytKey)}`);const j=await r.json();
+      if(j.error){msg("YouTube didn't accept the search: "+j.error.message+" Check the API key in Settings.");return}
+      results={q:term,items:(j.items||[]).filter(it=>it.id&&it.id.videoId).map(it=>({id:it.id.videoId,title:dec(it.snippet.title),ch:dec(it.snippet.channelTitle),thumb:it.snippet.thumbnails&&it.snippet.thumbnails.medium&&it.snippet.thumbnails.medium.url,live:it.snippet.liveBroadcastContent==="live"}))};
+      msg(results.items.length?"":"No videos found.");show();q(".ytwrap").scrollTop=0}
+    catch(err){msg("Couldn't reach YouTube. Check the internet connection.")}};
+  q(".ytadd").onsubmit=async e=>{e.preventDefault();const inp=q(".ytadd input"),id=ytId(inp.value);if(!id){msg("That doesn't look like a YouTube video link.");return}
+    let title="YouTube video",ch="";try{const r=await fetch("https://www.youtube.com/oembed?format=json&url="+encodeURIComponent("https://www.youtube.com/watch?v="+id));if(r.ok){const j=await r.json();title=j.title||title;ch=j.author_name||""}}catch(_){}
+    if(!S.ytSaved.some(v=>v.id===id))S.ytSaved.unshift({id,title,ch});save();inp.value="";msg("");show()};
+  show()}
 
 /* ---------- keep screen on ---------- */
 let lock=null;
@@ -758,7 +892,9 @@ async function wake(){try{if(!S.keepAwake){if(lock){await lock.release();lock=nu
   if("wakeLock" in navigator&&document.visibilityState==="visible"&&!lock){lock=await navigator.wakeLock.request("screen");lock.addEventListener("release",()=>lock=null)}}catch(e){}}
 document.addEventListener("visibilitychange",wake);addEventListener("pointerdown",wake,true);
 
-S.apps=S.apps.map(a=>{try{const n=normApp(a.url);return{...a,url:n.url,out:n.out}}catch(e){return a}});
+applyFaceStyles();
+S.apps=S.apps.map(a=>{if(a.type)return a;try{const n=normApp(a.url);return n.type?{name:a.name,type:n.type,url:n.url}:{...a,url:n.url,out:n.out}}catch(e){return a}});
+if(!S.ytAdded){if(!S.apps.some(a=>a.type==="youtube"))S.apps.unshift({name:"YouTube",type:"youtube",url:"https://www.youtube.com/"});S.ytAdded=true;save()}
 buildApps();tick();weather();setInterval(weather,15*60000);wake();setInterval(tick,1000);
 </script>
 </body></html>
